@@ -1,15 +1,20 @@
 pipeline {
     agent any
+
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
+        DOCKER_IMAGE = 'sravyatirumala/bms:latest'
+        EKS_CLUSTER_NAME = 'my-eks-cluster'
+        AWS_REGION = 'us-east-2'
     }
+    
     stages {
         stage('Clean Workspace') {
             steps {
                 cleanWs()
             }
         }
-    stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
@@ -19,7 +24,7 @@ pipeline {
                 }
             }
         }
-    stage('Quality Gate') {
+        stage('Quality Gate') {
             steps {
                 script {
                     waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
