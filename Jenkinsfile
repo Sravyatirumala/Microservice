@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build -t sravyatirumala/adservice:latest -f ."
+                        sh "docker build -t sravyatirumala/adservice:latest  ."
                     }
                 }
             }
