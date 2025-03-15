@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build --no-cache -t sravyatirumala/shippingservice:latest ."
+                        sh "docker build --no-cache -t ./docker/Dockerfile sravyatirumala/shippingservice:latest ."
                     }
                 }
             }
