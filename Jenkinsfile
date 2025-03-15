@@ -3,27 +3,29 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_IMAGE = 'sravyatirumala/bms:latest'
+        DOCKER_IMAGE = 'sravyatirumala/adservice:latest'
         EKS_CLUSTER_NAME = 'my-eks-cluster'
         AWS_REGION = 'us-east-2'
     }
-    
+
     stages {
         stage('Clean Workspace') {
             steps {
                 cleanWs()
             }
         }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' 
+                    sh '''
                     $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Microservice \
-                    -Dsonar.projectKey=Microservice 
+                    -Dsonar.projectKey=Microservice
                     '''
                 }
             }
         }
+
         stage('Quality Gate') {
             steps {
                 script {
@@ -31,7 +33,7 @@ pipeline {
                 }
             }
         }
-    stages {
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
@@ -41,16 +43,16 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker push sravyatirumala/adservice:latest "
+                        sh "docker push sravyatirumala/adservice:latest"
                     }
                 }
             }
         }
     }
- }
 }
+
