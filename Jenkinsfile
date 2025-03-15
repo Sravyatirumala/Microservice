@@ -19,8 +19,8 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
-                    $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BMS \
-                    -Dsonar.projectKey=BMS 
+                    $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Microservice \
+                    -Dsonar.projectKeyMicroservice
                     '''
                 }
             }
