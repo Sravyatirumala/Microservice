@@ -37,8 +37,19 @@ pipeline {
         stage('Build & Tag Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build --no-cache -t sravyatirumala/adservice:latest ."
+                    // Debugging: Check the current directory and list files
+                    sh 'pwd'  // Prints the current directory
+                    sh 'ls -l' // Lists all files to check if Dockerfile exists
+                    
+                    // Check for Dockerfile existence before building
+                    def dockerFileExists = fileExists('Dockerfile')
+                    if (dockerFileExists) {
+                        // Build the Docker image if Dockerfile exists
+                        withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
+                            sh "docker build --no-cache -t sravyatirumala/adservice:latest ."
+                        }
+                    } else {
+                        error "Dockerfile not found in the workspace!"
                     }
                 }
             }
@@ -54,5 +65,18 @@ pipeline {
             }
         }
     }
-}
 
+    post {
+        always {
+            // Cleanup actions, such as removing temporary files or notifying users
+            echo 'Pipeline finished, cleaning up workspace.'
+            cleanWs()  // Optional: you can clean the workspace again if necessary
+        }
+        success {
+            echo 'Build and Push completed successfully!'
+        }
+        failure {
+            echo 'Build or Push failed, please check the logs!'
+        }
+    }
+}
