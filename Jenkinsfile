@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build  -f /var/lib/jenkins/workspace --no-cache -t sravyatirumala/shippingservice:latest ."
+                        sh "docker build  -f ./docker/Dockerfile --no-cache -t sravyatirumala/shippingservice:latest ."
                     }
                 }
             }
