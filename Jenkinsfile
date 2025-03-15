@@ -1,4 +1,4 @@
- pipeline {
+pipeline {
     agent any
 
     environment {
@@ -44,6 +44,11 @@
         stage('Build & Tag Docker Image') {
             steps {
                 script {
+                    // Debugging steps
+                    sh 'pwd'  // Print current directory
+                    sh 'ls -l' // List files to verify directory structure
+
+                    // Build Docker image
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
                         sh "docker build --no-cache -t sravyatirumala/loadgenerator:latest -f ./docker/Dockerfile ."
                     }
@@ -64,9 +69,9 @@
 
     post {
         always {
-            // Cleanup actions, such as removing temporary files or notifying users
+            // Cleanup actions
             echo 'Pipeline finished, cleaning up workspace.'
-            cleanWs()  // Optional: you can clean the workspace again if necessary
+            cleanWs()
         }
         success {
             echo 'Build and Push completed successfully!'
