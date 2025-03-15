@@ -14,6 +14,7 @@ pipeline {
                 cleanWs()
             }
         }
+        
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
@@ -24,6 +25,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Quality Gate') {
             steps {
                 script {
@@ -31,22 +33,21 @@ pipeline {
                 }
             }
         }
-       stage('Trivy FS Scan') {
+
+        stage('Trivy FS Scan') {
             steps {
                 sh 'trivy fs . > trivyfs.txt'
             }
         }
         
-    stages {
         stage('Build & Tag Docker Image') {
             steps {
                 script {
                     dir('src') {
-
-                    withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build -t sravyatirumala/cartservice:latest ."
-                    }
+                        withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
+                            sh "docker build -t sravyatirumala/cartservice:latest ."
                         }
+                    }
                 }
             }
         }
@@ -55,7 +56,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker push sravyatirumala/cartservice:latest "
+                        sh "docker push sravyatirumala/cartservice:latest"
                     }
                 }
             }
