@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-     environment {
+    environment {
         SCANNER_HOME = tool 'sonar-scanner'
         DOCKER_IMAGE = 'sravyatirumala/loadgenerator:latest'
         EKS_CLUSTER_NAME = 'my-eks-cluster'
@@ -14,7 +14,8 @@ pipeline {
                 cleanWs()
             }
         }
-         stage('SonarQube Analysis') {
+
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
@@ -33,22 +34,23 @@ pipeline {
                 }
             }
         }
+
         stage('Trivy FS Scan') {
             steps {
                 sh 'trivy fs . > trivyfs.txt'
             }
         }
-    stages {
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build  --no-cache -t sravyatirumala/loadgenerator:latest ."
+                        sh "docker build --no-cache -t sravyatirumala/loadgenerator:latest ."
                     }
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
