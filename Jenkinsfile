@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build --no-cache -t sravyatirumala/loadgenerator:latest ."
+                        sh "docker build --no-cache -t sravyatirumala/loadgenerator:latest -f docker/Dockerfile ."
                     }
                 }
             }
