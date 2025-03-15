@@ -20,8 +20,8 @@ pipeline {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
                     $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.projectName=BMS \
-                        -Dsonar.projectKey=BMS
+                        -Dsonar.projectName=Microservice \
+                        -Dsonar.projectKey=Microservice
                     '''
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build -t sravyatirumala/currencyservice:latest ."
+                        sh "docker build --no-cache -t sravyatirumala/currencyservice:latest ."
                     }
                 }
             }
