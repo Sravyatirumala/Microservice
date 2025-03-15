@@ -14,6 +14,7 @@ pipeline {
                 cleanWs()
             }
         }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonar-server') {
@@ -33,13 +34,13 @@ pipeline {
                 }
             }
         }
+
         stage('Trivy FS Scan') {
             steps {
                 sh 'trivy fs . > trivyfs.txt'
             }
         }
-        
-    stages {
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
@@ -49,12 +50,12 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker push sravyatirumala/paymentservice:latest "
+                        sh "docker push sravyatirumala/paymentservice:latest"
                     }
                 }
             }
