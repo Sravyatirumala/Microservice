@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build -t sravyatirumala/frontend:latest ."
+                        sh "docker build --no-cache -t sravyatirumala/frontend:latest ."
                     }
                 }
             }
