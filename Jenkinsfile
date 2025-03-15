@@ -45,7 +45,7 @@ pipeline {
                 script {
                     dir('src') {
                         withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                            sh "docker build -t sravyatirumala/cartservice:latest ."
+                            sh "docker build --no-cache -t sravyatirumala/cartservice:latest ."
                         }
                     }
                 }
