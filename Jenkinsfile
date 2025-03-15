@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_IMAGE = 'sravyatirumala/adservice:latest'
+        DOCKER_IMAGE = 'sravyatirumala/adservice:laest'
         EKS_CLUSTER_NAME = 'my-eks-cluster'
         AWS_REGION = 'us-east-2'
     }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'Docker-creds', toolName: 'docker') {
-                        sh "docker build -t sravyatirumala/adservice:latest  ."
+                        sh "docker build -t sravyatirumala/adservice:latest ."
                     }
                 }
             }
