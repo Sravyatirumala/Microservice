@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_IMAGE = 'sravyatirumala/bms:latest'
+        DOCKER_IMAGE = 'sravyatirumala/checkoutservice:latest'
         EKS_CLUSTER_NAME = 'my-eks-cluster'
         AWS_REGION = 'us-east-2'
     }
@@ -20,8 +20,8 @@ pipeline {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
                     $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.projectName=BMS \
-                        -Dsonar.projectKey=BMS
+                        -Dsonar.projectName=Microservice \
+                        -Dsonar.projectKey=Microservice
                     '''
                 }
             }
