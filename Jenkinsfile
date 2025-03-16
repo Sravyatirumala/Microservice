@@ -1,18 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'  // Set up the SonarQube scanner tool path
+    }
+
     stages {
         stage('Clean Workspace') {
             steps {
-                cleanWs()
+                cleanWs()  // Clean the workspace before starting the pipeline
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar-server') {
+                withSonarQubeEnv('sonar-server') {  // Set up the SonarQube environment variables
                     sh ''' 
-                    sonar-scanner \
+                    $SCANNER_HOME/bin/sonar-scanner \  // Use the SonarQube scanner
                         -Dsonar.projectName=Microservice \
                         -Dsonar.projectKey=Microservice
                     '''
@@ -23,7 +27,7 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'  // Wait for the SonarQube quality gate
                 }
             }
         }
