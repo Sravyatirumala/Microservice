@@ -16,7 +16,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-server') {  // Set up the SonarQube environment variables
                     sh ''' 
-                    $SCANNER_HOME/bin/sonar-scanner \  // Use the SonarQube scanner
+                    $SCANNER_HOME/bin/sonar-scanner \ 
                         -Dsonar.projectName=Microservice \
                         -Dsonar.projectKey=Microservice
                     '''
