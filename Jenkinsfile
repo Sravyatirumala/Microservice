@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SCANNER_HOME = tool name: 'sonar-scanner', type: 'Tool' // Corrected tool name for SonarScanner
+        SCANNER_HOME = tool 'sonar-scanner'
         EKS_CLUSTER_NAME = 'my-eks-cluster'
         AWS_REGION = 'us-east-2'
     }
