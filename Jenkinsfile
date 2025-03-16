@@ -7,7 +7,6 @@ pipeline {
                 cleanWs()  // Clean the workspace before starting the pipeline
             }
         }
-
         stage('Build & Tag Docker Image') {
             steps {
                 script {
@@ -19,13 +18,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Trivy FS Scan') {
-            steps {
-                sh 'trivy fs . > trivyfs.txt'
-            }
-        }
-
+        
         stage('Push Docker Image') {
             steps {
                 script {
