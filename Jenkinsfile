@@ -12,7 +12,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh ''' 
-                    $SCANNER_HOME/bin/sonar-scanner \
+                    sonar-scanner \
                         -Dsonar.projectName=Microservice \
                         -Dsonar.projectKey=Microservice
                     '''
@@ -37,6 +37,12 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+
+        stage('Trivy FS Scan') {
+            steps {
+                sh 'trivy fs . > trivyfs.txt'
             }
         }
 
