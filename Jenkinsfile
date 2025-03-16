@@ -39,7 +39,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -55,4 +55,13 @@ pipeline {
         always {
             // Cleanup actions, such as removing temporary files or notifying users
             echo 'Pipeline finished, cleaning up workspace.'
-            cleanWs()  // Optional: you can clean the
+            cleanWs()  // Optional: you can clean the workspace again if necessary
+        }
+        success {
+            echo 'Build and Push completed successfully!'
+        }
+        failure {
+            echo 'Build or Push failed, please check the logs!'
+        }
+    }
+}
